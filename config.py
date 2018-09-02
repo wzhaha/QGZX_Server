@@ -1,0 +1,12 @@
+
+# Mysql config
+MYSQL_URL = '127.0.0.1'
+MYSQL_USERNAME = 'root'
+MYSQL_PASSWORD = '123456'
+MYSQL_DATABASE = 'QZZX'
+
+# # Mysql config
+# MYSQL_URL = '192.144.156.204'
+# MYSQL_USERNAME = 'blockchain'
+# MYSQL_PASSWORD = '123456'
+# MYSQL_DATABASE = 'blockchain'
