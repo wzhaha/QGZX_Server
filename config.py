@@ -3,10 +3,10 @@
 MYSQL_URL = '127.0.0.1'
 MYSQL_USERNAME = 'root'
 MYSQL_PASSWORD = '123456'
-MYSQL_DATABASE = 'QZZX'
+MYSQL_DATABASE = 'tb_dm_qqzx'
 
 # # Mysql config
-# MYSQL_URL = '192.144.156.204'
-# MYSQL_USERNAME = 'blockchain'
+# MYSQL_URL = '118.24.61.138'
+# MYSQL_USERNAME = 'root'
 # MYSQL_PASSWORD = '123456'
-# MYSQL_DATABASE = 'blockchain'
+# MYSQL_DATABASE = 'tb_dm_qqzx'
