@@ -3,8 +3,6 @@ from config import *
 
 
 class MysqlService:
-    db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
-    cursor = db.cursor()
 
     # 用户的增改查
     # 增
@@ -13,36 +11,45 @@ class MysqlService:
                VALUES ('%s','%s', '%s')" % \
               (id, mobile, name)
         try:
-            self.cursor.execute(sql)
-            self.db.commit()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            db.commit()
+            db.close()
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 判断用户是否已经存在
     def judgeIdExist(self, id):
         sql = "SELECT id from tb_dm_user where id ='%s'" % (id)
         try:
-            self.cursor.execute(sql)
-            results = self.cursor.fetchall()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            db.close()
             if (results == None):
                 return False;
             else:
                 return True;
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 查询用户信息
     def selectUserInfo(self, id):
         dict = set()
         sql = "SELECT * from tb_dm_user where id = '%s'" % (id)
         try:
-            self.cursor.execute(sql)
-            myresult = self.cursor.fetchall()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            myresult = cursor.fetchall()
             for x in myresult:
                 dict.add(x)
+            db.close()
             return dict
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 签到表的增查
     # 增
@@ -51,20 +58,26 @@ class MysqlService:
                VALUES ('%s','%s', '%d')" % \
                    (id, time, section)
         try:
-            self.cursor.execute(sql_sign)
-            self.db.commit()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql_sign)
+            db.commit()
+            db.close()
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 查所有签到
     def sign_search(self, id):
         sql = "SELECT * from tb_dm_sign where id ='%s'" % (id)
         try:
-            self.cursor.execute(sql)
-            results = self.cursor.fetchall()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            db.close()
             return results
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 排班表的增删改查
     # 增
@@ -73,21 +86,26 @@ class MysqlService:
                VALUES ('%d','%d', '%s','%s','%s')" % \
               (week, section, id, name, position)
         try:
-            self.cursor.execute(sql)
-            self.db.commit()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            db.commit()
+            db.close()
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 查
     def querySchedule(self, id):
         list = []
-        dict = {}
         sql = "SELECT * from tb_dm_schedule where id = '%s'" % (id)
         print(sql)
         try:
-            self.cursor.execute(sql)
-            results = self.cursor.fetchall()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            results = cursor.fetchall()
             for x in results:
+                dict = {}
                 dict['week'] = x[0]
                 dict['section'] = x[1]
                 dict['id'] = x[2]
@@ -95,42 +113,52 @@ class MysqlService:
                 dict['position'] = x[4]
                 list.append(dict)
             print(list)
+            db.close()
             return list
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 删
     def deleteSchedule(self, week, section, id):
         sql = "DELETE from tb_dm_schedule where id = '%s', week = '%d', section = '%d'" % (id) % (week) % (section)
         try:
-            self.cursor.execute(sql)
-            self.db.commit()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            db.commit()
+            db.close()
         except:
-            self.db.rollback()
+            db.rollback()
 
     # 改
     def updateSchedule(self, week, section, new_id, old_id):
         sql = "UPDATE tb_dm_schedule set id = '%s' where week = '%d', section = '%d' id='%s'" % (new_id) % (week) % (
             section) % (old_id)
         try:
-            self.cursor.execute(sql)
-            self.db.commit()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            db.commit()
+            db.close()
         except:
-            self.db.rollback()
+            db.rollback()
 
     #查询联系方式
     def queryContacts(self):
         sql="select * from tb_dm_contact"
         list=[]
-        dict={}
         try:
-            self.cursor.execute(sql)
-            results=self.cursor.fetchall()
+            db = pymysql.connect(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            results=cursor.fetchall()
             for x in results:
+                dict = {}
                 dict['id'] = x[0]
                 dict['name'] = x[1]
                 dict['mobile'] = x[2]
                 list.append(dict)
+            db.close()
             return list
         except:
-            self.db.rollback()
+            db.rollback()
